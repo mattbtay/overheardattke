@@ -4,29 +4,50 @@ window.onload = function() { init() };
 
   var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/10eQQGsVwyAlKSk_Ios-6z-t-eTym_g7v8iowmokSwAI/pubhtml';
 
+  this.quoteItem = new Array();
+
   function init() {
-    Tabletop.init( { key: public_spreadsheet_url,
-                     callback: showInfo,
-                     simpleSheet: true } )
+    Tabletop.init( { 
+      key: public_spreadsheet_url,
+      callback: showInfo,
+      simpleSheet: true 
+   })
   }
 
   function showInfo(data, tabletop) {
-    //alert("Successfully processed!")
+    
     console.log(data);
 
-    var quoteItem = data.length + 1,
-          listquoteItem = Math.randomRange(data.length);
+      quoteItem = data.length;
+    var listquoteItem = Math.randomRange(data.length);
 
-    var quoteID = listquoteItem;
-    	Quote = data[quoteID].quote,
-    	Author = data[quoteID].author;
-
-
+    var quoteID = listquoteItem,
+        Quote = data[quoteID].quote,
+        Author = data[quoteID].author;
     
     document.getElementById('quote').innerHTML = Quote;
     document.getElementById('author').innerHTML = Author;
 
+
+
   }
+
+  
+  document.getElementById('reload').addEventListener('click', reloader); 
+
+  
+  function reloader(){
+    document.getElementById('quote').innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+    document.getElementById('author').innerHTML = '';
+    
+    init();
+
+    //document.getElementById('reload').innerHTML = 'Load Another';
+    
+  }
+
+
+    
 
   Math.randomRange = function(min, max) {
     if (min && max) {
